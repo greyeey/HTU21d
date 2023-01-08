@@ -22,13 +22,22 @@ add_compile_options(-Wall
         -Wno-maybe-uninitialized
         )
 
+if (TARGET tinyusb_device)
+        add_executable(HTU21d_example
+                HTU21d_example.c
+                )
 
-add_executable(HTU21d_example
-        HTU21d_example.c
-        )
+        # pull in common dependencies
+        target_link_libraries(HTU21d_example PUBLIC pico_stdlib hardware_i2c)
+        target_include_directories(HTU21d_example PUBLIC
+                                ${CMAKE_CURRENT_LIST_DIR})
 
-# pull in common dependencies
-target_link_libraries(HTU21d_example pico_stdlib hardware_i2c)
+        # enable usb output, disable uart output
+        pico_enable_stdio_usb(HTU21d_example 1)
+        #pico_enable_stdio_uart(HTU21d_example 0)
 
-# create map/bin/hex file etc.
-pico_add_extra_outputs(HTU21d_example)
+        # create map/bin/hex file etc.
+        pico_add_extra_outputs(HTU21d_example)
+elseif(PICO_ON_DEVICE)
+        message(WARNING "not building HTU21d_example because TinyUSB submodule is not initialized in the SDK")
+endif()

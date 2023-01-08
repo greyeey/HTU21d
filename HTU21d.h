@@ -18,3 +18,10 @@
 #define ReafUserReg                     _u(0xE7)        //Wrie User Register
 #define SoftReset                       _u(0xFE)        //Soft Reset
 
+void hTU21d_init();
+uint16_t hTU21d_read_raw_Tempurature(void);
+float hTU21d_Temperature_Conversion(void);
+uint16_t hTU21d_read_raw_Humidity(void);
+float hTU21d_Humidity_Conversion(void);
+
+
